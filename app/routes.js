@@ -1,9 +1,21 @@
 // const controller = require('./controllers/controller');
 const { healthCheck } = require('./controllers/healthCheck');
+const { postUser } = require('./controllers/users');
+
+const { isEmpty, validateErrors, isEmail } = require('./middlewares');
 
 exports.init = app => {
   app.get('/health', healthCheck);
-  // app.get('/endpoint/get/path', [], controller.methodGET);
-  // app.put('/endpoint/put/path', [], controller.methodPUT);
-  // app.post('/endpoint/post/path', [], controller.methodPOST);
+  app.post(
+    '/users',
+    [
+      isEmpty('email'),
+      isEmpty('password'),
+      isEmpty('firstName'),
+      isEmpty('lastName'),
+      isEmail,
+      validateErrors
+    ],
+    postUser
+  );
 };

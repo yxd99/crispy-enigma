@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/NoobTalks/crispy-enigma.svg?branch=config-travis)](https://travis-ci.com/NoobTalks/crispy-enigma)
 # WTraining
 
 WTraining
