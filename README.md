@@ -1,3 +1,4 @@
+(https://travis-ci.com/NoobTalks/crispy-enigma.svg?branch=config-travis)
 # WTraining
 
 WTraining
