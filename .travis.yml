@@ -24,3 +24,4 @@ services:
 scripts:
   - npm run lint
   - npm test
+  
