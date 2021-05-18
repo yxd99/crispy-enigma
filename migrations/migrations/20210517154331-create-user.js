@@ -1,8 +1,9 @@
 'use strict';
-const TABLE_USER = process.env.DB_TABLE_USERS;
+const { DB_TABLE_USER } = require('../../helpers/const-dictionary');
+
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable(TABLE_USER, {
+    queryInterface.createTable(DB_TABLE_USER, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,5 +28,5 @@ module.exports = {
         type: Sequelize.STRING
       }
     }),
-  down: queryInterface => queryInterface.dropTable(TABLE_USER)
+  down: queryInterface => queryInterface.dropTable(DB_TABLE_USER)
 };
