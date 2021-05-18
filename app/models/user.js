@@ -1,9 +1,10 @@
 'use strict';
-const { DB_TABLE_USER } = require('../../helpers/const-dictionary');
+
+const { USERS_TABLE } = require('../constants');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    DB_TABLE_USER,
+    USERS_TABLE,
     {
       firsName: {
         allowNull: false,

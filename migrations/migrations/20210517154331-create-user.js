@@ -1,9 +1,10 @@
 'use strict';
-const { DB_TABLE_USER } = require('../../helpers/const-dictionary');
+
+const { USERS_TABLE } = require('../../app/constants');
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable(DB_TABLE_USER, {
+    queryInterface.createTable(USERS_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -28,5 +29,5 @@ module.exports = {
         type: Sequelize.STRING
       }
     }),
-  down: queryInterface => queryInterface.dropTable(DB_TABLE_USER)
+  down: queryInterface => queryInterface.dropTable(USERS_TABLE)
 };
