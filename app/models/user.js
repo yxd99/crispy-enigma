@@ -1,11 +1,12 @@
 'use strict';
-const TABLE_USERS = process.env.DB_TABLE_USERS;
+
+const { USERS_TABLE } = require('../constants');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    TABLE_USERS,
+    USERS_TABLE,
     {
-      firstName: {
+      firsName: {
         allowNull: false,
         type: DataTypes.STRING
       },
