@@ -3,7 +3,7 @@ const TABLE_USER = process.env.DB_TABLE_USERS;
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable(TABLE_USER, {
-      ID: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

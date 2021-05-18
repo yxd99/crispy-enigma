@@ -1,7 +1,7 @@
 'use strict';
 const TABLE_USER = process.env.DB_TABLE_USERS;
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define(
+  const User = sequelize.define(
     TABLE_USER,
     {
       firsName: {
@@ -24,5 +24,5 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  return user;
+  return User;
 };
