@@ -1,18 +1,19 @@
 const { request } = require('express');
+const { addError } = require('./error-control-req');
 
 const isEmpty = field => (req, res, next) => {
   const infoUser = req.body;
   if (!infoUser[field]) {
-    req.errors = { ...req.errors, [field]: 'Campo requerido.' };
+    addError(field, 'Campo requerido.');
   }
   next();
 };
 
 const isEmail = (req = request, res, next) => {
   const email = req.body.email || '';
-  const pattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+  const pattern = /^[a-z0-9.-]+@\S+$/;
   if (!pattern.test(email)) {
-    req.errors = { ...req.error, email: 'No es válido el correo.' };
+    addError('email', 'No es válido el correo.');
   }
   next();
 };

@@ -1,9 +1,11 @@
 'use strict';
+const TABLE_USERS = process.env.DB_TABLE_USERS;
+
 module.exports = (sequelize, DataTypes) => {
-  const user = sequelize.define(
-    'Users',
+  const User = sequelize.define(
+    TABLE_USERS,
     {
-      firsName: {
+      firstName: {
         allowNull: false,
         type: DataTypes.STRING
       },
@@ -14,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         allowNull: false,
         unique: 'compositeIndex',
+        validate: {
+          isEmail: true
+        },
         type: DataTypes.STRING
       },
       password: {
@@ -23,5 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  return user;
+  // User.associate = models => {
+  // associations can be defined here
+  // };
+  return User;
 };

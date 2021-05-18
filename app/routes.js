@@ -2,7 +2,7 @@
 const { healthCheck } = require('./controllers/healthCheck');
 const { postUser } = require('./controllers/users');
 
-const { isEmpty, validateErrors, isEmail } = require('./middlewares');
+const { isEmpty, validateErrors, woloxEmail, existEmail, lengthField } = require('./middlewares');
 
 exports.init = app => {
   app.get('/health', healthCheck);
@@ -13,7 +13,9 @@ exports.init = app => {
       isEmpty('password'),
       isEmpty('firstName'),
       isEmpty('lastName'),
-      isEmail,
+      lengthField('password'),
+      woloxEmail,
+      existEmail,
       validateErrors
     ],
     postUser

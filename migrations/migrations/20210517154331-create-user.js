@@ -1,8 +1,9 @@
 'use strict';
+const TABLE_USERS = process.env.DB_TABLE_USERS;
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Users', {
-      ID: {
+    queryInterface.createTable(TABLE_USERS, {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -24,7 +25,17 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
       }
     }),
-  down: queryInterface => queryInterface.dropTable('Users')
+  down: queryInterface => queryInterface.dropTable(TABLE_USERS)
 };
