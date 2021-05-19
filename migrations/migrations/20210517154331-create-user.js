@@ -21,7 +21,7 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        unique: 'compositeIndex',
+        unique: true,
         type: Sequelize.STRING
       },
       password: {

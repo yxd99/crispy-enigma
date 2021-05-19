@@ -2,11 +2,11 @@
 
 const { USERS_TABLE } = require('../constants');
 
-module.exports = (sequelize, DataTypes) => {
+const UserSchema = (sequelize, DataTypes) => {
   const User = sequelize.define(
     USERS_TABLE,
     {
-      firsName: {
+      firstName: {
         allowNull: false,
         type: DataTypes.STRING
       },
@@ -34,3 +34,5 @@ module.exports = (sequelize, DataTypes) => {
   // };
   return User;
 };
+
+module.exports = UserSchema;

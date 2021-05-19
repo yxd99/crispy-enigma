@@ -12,13 +12,15 @@ const postUser = async (req, res = response) => {
     password: bcryptjs.hashSync(password, salt)
   };
   dataUser.email = email.toLowerCase();
-  await db.User.create(dataUser)
-    .then(user => {
-      logger.info(`El usuario ${email} se creo correctamente.`);
-      res.json(user);
+  await db.Users.create(dataUser)
+    .then(() => {
+      const msg = `El usuario ${email} se registro satisfactoriamente.`;
+      logger.info(msg);
+      res.json({ msg });
     })
     .catch(error => {
       logger.error(error);
+      res.status(400).json(error.message);
     });
 };
 
