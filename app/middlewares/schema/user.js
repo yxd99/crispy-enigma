@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { WOLOX_EMAIL } = require('../../regex');
 
 const schemaUser = Joi.object({
   firstName: Joi.string().required(),
@@ -9,14 +10,9 @@ const schemaUser = Joi.object({
     .required(),
   email: Joi.string()
     .email({
-      multiple: false,
-      tlds: {
-        allow: ['ar', 'co']
-      },
-      minDomainSegments: 3,
-      maxDomainSegments: 3
+      multiple: false
     })
-    .regex(/^[a-zA-Z0-9_.+-]+@(wolox\.com)\.?(ar|co)$/)
+    .regex(WOLOX_EMAIL)
 });
 
 module.exports = schemaUser;

@@ -2,7 +2,7 @@
 
 const { USERS_TABLE } = require('../constants');
 
-const UserSchema = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     USERS_TABLE,
     {
@@ -16,7 +16,7 @@ const UserSchema = (sequelize, DataTypes) => {
       },
       email: {
         allowNull: false,
-        unique: 'compositeIndex',
+        unique: true,
         validate: {
           isEmail: true
         },
@@ -34,5 +34,3 @@ const UserSchema = (sequelize, DataTypes) => {
   // };
   return User;
 };
-
-module.exports = UserSchema;

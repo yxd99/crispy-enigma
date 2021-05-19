@@ -1,29 +1,24 @@
-const { response } = require('express');
 const { logger } = require('express-wolox-logger');
-const bcryptjs = require('bcryptjs');
-const db = require('../models');
+const { badRequest } = require('../errors');
+const UserService = require('../services/user');
 
-const postUser = async (req, res = response) => {
-  const { password, firstName, lastName, email } = req.body;
-  const salt = bcryptjs.genSaltSync();
-  const dataUser = {
-    firstName,
-    lastName,
-    password: bcryptjs.hashSync(password, salt)
-  };
-  dataUser.email = email.toLowerCase();
-  await db.Users.create(dataUser)
-    .then(() => {
-      const msg = `El usuario ${email} se registro satisfactoriamente.`;
-      logger.info(msg);
-      res.json({ msg });
-    })
-    .catch(error => {
-      logger.error(error);
-      res.status(400).json(error.message);
-    });
+const signUp = async (req, res, next) => {
+  try {
+    const userDTO = req.body;
+    const query = { email: userDTO.email };
+    const dataUser = await UserService.getUsers(query);
+    if (dataUser.length) {
+      throw badRequest(`El correo ${query.email} ya está registrado.`);
+    }
+    const { email } = await UserService.signUp(userDTO);
+    const msg = { response: `Se registro el usuario ${email} satisfactoriamente.` };
+    logger.info(msg);
+    return res.status(201).json(msg);
+  } catch (err) {
+    return next(err);
+  }
 };
 
 module.exports = {
-  postUser
+  signUp
 };
