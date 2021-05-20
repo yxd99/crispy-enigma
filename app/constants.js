@@ -1,1 +1,2 @@
-exports.USERS_TABLE = 'Users';
+exports.USERS_TABLE = 'User';
+exports.USERS_TABLE_MIGRATION = 'Users';
