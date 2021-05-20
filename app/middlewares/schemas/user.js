@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { regex } = require('../../helpers');
 
-const schemaUser = Joi.object({
+const signUp = Joi.object({
   first_name: Joi.string().required(),
   last_name: Joi.string().required(),
   password: Joi.string()
@@ -16,4 +16,6 @@ const schemaUser = Joi.object({
     .required()
 });
 
-module.exports = schemaUser;
+module.exports = {
+  signUp
+};

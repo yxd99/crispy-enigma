@@ -1,13 +1,11 @@
 const utils = require('./utils');
 const regex = require('./regex');
-const constants = require('./constants');
-const statusCode = require('./statusCode');
+const statusCodes = require('./statusCodes');
 const errors = require('./errors');
 
 module.exports = {
-  ...statusCode,
+  statusCodes,
   utils,
   regex,
-  constants,
   errors
 };

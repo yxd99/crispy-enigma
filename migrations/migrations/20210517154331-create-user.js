@@ -1,10 +1,8 @@
 'use strict';
 
-const { constants } = require('../../app/helpers');
-
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable(constants.USERS_TABLE_MIGRATION, {
+    queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -39,5 +37,5 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: queryInterface => queryInterface.dropTable(constants.USERS_TABLE_MIGRATION)
+  down: queryInterface => queryInterface.dropTable('Users')
 };

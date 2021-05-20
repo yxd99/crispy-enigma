@@ -1,7 +1,7 @@
 const configJoi = require('./config');
-const schemaUser = require('./user');
+const userSchema = require('./user');
 
 module.exports = {
   configJoi,
-  schemaUser
+  userSchema
 };

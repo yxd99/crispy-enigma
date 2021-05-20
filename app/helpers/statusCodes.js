@@ -1,6 +1,6 @@
 const errors = require('./errors');
 
-exports.statusCode = {
+module.exports = {
   successful: 200,
   created: 201,
   [errors.BAD_REQUEST]: 400,

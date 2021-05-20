@@ -1,11 +1,11 @@
 const { logger } = require('express-wolox-logger');
-const { errors, statusCode } = require('../helpers');
+const { errors, statusCodes } = require('../helpers');
 const { userMapper } = require('../mappers');
 const { UserService } = require('../services');
 
 const signUp = async (req, res, next) => {
   try {
-    const userDTO = userMapper.signUpMapper(req.body);
+    const userDTO = userMapper.signUpDTO(req.body);
     const query = { email: userDTO.email };
     const dataUser = await UserService.getUsers(query);
     if (dataUser.length) {
@@ -21,7 +21,7 @@ const signUp = async (req, res, next) => {
       user: email
     };
     logger.info(msg);
-    return res.status(statusCode.created).json(msg);
+    return res.status(statusCodes.created).json(msg);
   } catch (err) {
     return next(err);
   }
