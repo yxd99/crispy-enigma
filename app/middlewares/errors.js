@@ -1,16 +1,11 @@
-const errors = require('../errors');
 const logger = require('../logger');
 
 const DEFAULT_STATUS_CODE = 500;
 
-const statusCodes = {
-  [errors.BAD_REQUEST]: 400,
-  [errors.DATABASE_ERROR]: 503,
-  [errors.DEFAULT_ERROR]: 500
-};
+const { statusCode } = require('../helpers');
 
 exports.handle = (error, req, res, next) => {
-  if (error.internalCode) res.status(statusCodes[error.internalCode] || DEFAULT_STATUS_CODE);
+  if (error.internalCode) res.status(statusCode[error.internalCode] || DEFAULT_STATUS_CODE);
   else {
     // Unrecognized error, notifying it to rollbar.
     next(error);

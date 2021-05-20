@@ -1,9 +1,9 @@
 const Joi = require('joi');
-const { WOLOX_EMAIL } = require('../../regex');
+const { regex } = require('../../helpers');
 
 const schemaUser = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
+  first_name: Joi.string().required(),
+  last_name: Joi.string().required(),
   password: Joi.string()
     .alphanum()
     .min(8)
@@ -12,7 +12,8 @@ const schemaUser = Joi.object({
     .email({
       multiple: false
     })
-    .regex(WOLOX_EMAIL)
+    .regex(regex.WOLOX_EMAIL)
+    .required()
 });
 
 module.exports = schemaUser;
