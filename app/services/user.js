@@ -1,21 +1,24 @@
 const { Op } = require('sequelize');
-const { databaseError } = require('../errors');
-const { encryptPassword } = require('../utils');
+const { errors, utils } = require('../helpers');
 const db = require('../models');
 
 class UserService {
   static async signUp(user) {
-    user.password = encryptPassword(user.password);
-    const userRecord = await db.Users.create(user);
-    return userRecord;
+    try {
+      user.password = utils.encryptPassword(user.password);
+      const userRecord = await db.User.create(user);
+      return userRecord;
+    } catch (err) {
+      throw errors.databaseError(err);
+    }
   }
 
   static async getUsers(params = {}) {
     try {
-      const users = await db.Users.findAll({ where: { [Op.or]: { ...params } } });
+      const users = await db.User.findAll({ where: { [Op.or]: params } });
       return users;
-    } catch (error) {
-      throw databaseError(error);
+    } catch (err) {
+      throw errors.databaseError(err);
     }
   }
 }

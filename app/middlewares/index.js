@@ -1,7 +1,5 @@
-const verifyField = require('./verify-field');
-const verifyFieldUser = require('./user');
+const validators = require('./validators/');
 
 module.exports = {
-  ...verifyField,
-  ...verifyFieldUser
+  validators
 };
