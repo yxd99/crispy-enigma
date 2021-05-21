@@ -7,7 +7,7 @@ const signUp = async (req, res, next) => {
   try {
     const userDTO = userMapper.signUpDTO(req.body);
     const dataUser = await UserService.getUser({ email: userDTO.email });
-    if (dataUser.length) {
+    if (dataUser !== null) {
       const msg = {
         response: 'this email is already in use.',
         user: userDTO.email
