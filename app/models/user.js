@@ -1,12 +1,12 @@
 'use strict';
 
-const { USERS_TABLE } = require('../constants');
+exports.USERS_TABLE = 'User';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    USERS_TABLE,
+    exports.USERS_TABLE,
     {
-      firsName: {
+      firstName: {
         allowNull: false,
         type: DataTypes.STRING
       },
@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         allowNull: false,
-        unique: 'compositeIndex',
+        unique: true,
+        validate: {
+          isEmail: true
+        },
         type: DataTypes.STRING
       },
       password: {
@@ -26,5 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+  // User.associate = models => {
+  // associations can be defined here
+  // };
   return User;
 };

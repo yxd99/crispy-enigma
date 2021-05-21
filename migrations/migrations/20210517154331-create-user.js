@@ -1,10 +1,8 @@
 'use strict';
 
-const { USERS_TABLE } = require('../../app/constants');
-
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable(USERS_TABLE, {
+    queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,13 +19,23 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        unique: 'compositeIndex',
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
       }
     }),
-  down: queryInterface => queryInterface.dropTable(USERS_TABLE)
+  down: queryInterface => queryInterface.dropTable('Users')
 };
