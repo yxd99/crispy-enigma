@@ -26,6 +26,16 @@ const signUp = async (req, res, next) => {
   }
 };
 
+const signIn = (req, res, next) => {
+  try {
+    const userDTO = userMapper.signInDTO(req.body);
+    return userDTO;
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
-  signUp
+  signUp,
+  signIn
 };

@@ -16,6 +16,18 @@ const signUp = Joi.object({
     .required()
 });
 
+const signIn = Joi.object({
+  email: Joi.string()
+    .email({ multiple: false })
+    .regex(regex.WOLOX_EMAIL)
+    .required(),
+  password: Joi.string()
+    .alphanum()
+    .min(8)
+    .required()
+});
+
 module.exports = {
-  signUp
+  signUp,
+  signIn
 };

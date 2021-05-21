@@ -7,3 +7,11 @@ exports.signUpDTO = (params = {}) => {
     password
   };
 };
+
+exports.signInDTO = (params = {}) => {
+  const { email, password } = params;
+  return {
+    email,
+    password
+  };
+};

@@ -6,6 +6,9 @@ const encryptPassword = password => {
   return passwordEncrypt;
 };
 
+const isValidPassword = pass => pass;
+
 module.exports = {
-  encryptPassword
+  encryptPassword,
+  isValidPassword
 };
