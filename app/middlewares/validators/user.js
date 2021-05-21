@@ -1,7 +1,7 @@
 const { errors } = require('../../helpers');
 const { CONFIG_JOI, userSchema } = require('../schemas');
 
-const signUpDTO = (req, res, next) => {
+const validateSignUpDTO = (req, res, next) => {
   try {
     const { error } = userSchema.signUp.validate(req.body, CONFIG_JOI);
     if (error) {
@@ -14,5 +14,5 @@ const signUpDTO = (req, res, next) => {
 };
 
 module.exports = {
-  signUpDTO
+  validateSignUpDTO
 };
