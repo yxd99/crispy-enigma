@@ -6,8 +6,7 @@ const { UserService } = require('../services');
 const signUp = async (req, res, next) => {
   try {
     const userDTO = userMapper.signUpDTO(req.body);
-    const query = { email: userDTO.email };
-    const dataUser = await UserService.getUsers(query);
+    const dataUser = await UserService.getUser({ email: userDTO.email });
     if (dataUser.length) {
       const msg = {
         response: 'this email is already in use.',

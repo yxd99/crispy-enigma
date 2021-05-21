@@ -21,6 +21,15 @@ class UserService {
       throw errors.databaseError(err);
     }
   }
+
+  static async getUser(params = {}) {
+    try {
+      const user = await db.User.findOne({ where: { [Op.or]: params } });
+      return user;
+    } catch (err) {
+      throw errors.databaseError(err);
+    }
+  }
 }
 
 module.exports = UserService;
