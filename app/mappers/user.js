@@ -15,3 +15,10 @@ exports.signInDTO = (params = {}) => {
     password
   };
 };
+
+exports.signInResponseDTO = (params = {}) => {
+  const { id } = params;
+  return {
+    id
+  };
+};

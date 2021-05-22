@@ -1,5 +1,7 @@
 const { logger } = require('express-wolox-logger');
 const { errors, statusCodes } = require('../helpers');
+const { badRequest } = require('../helpers/errors');
+const { isValidPassword, generateToken } = require('../helpers/utils');
 const { userMapper } = require('../mappers');
 const { UserService } = require('../services');
 
@@ -26,10 +28,20 @@ const signUp = async (req, res, next) => {
   }
 };
 
-const signIn = (req, res, next) => {
+const signIn = async (req, res, next) => {
   try {
     const userDTO = userMapper.signInDTO(req.body);
-    return userDTO;
+    const user = await UserService.getUser({ email: userDTO.email });
+    if (!user) {
+      throw badRequest('User is not registered.');
+    }
+    const confirmPassword = isValidPassword(userDTO.password, user.password);
+    if (!confirmPassword) {
+      throw badRequest('Email or password invalid.');
+    }
+    const userSignInDTO = userMapper.signInResponseDTO(user);
+    const token = generateToken(userSignInDTO);
+    return res.status(statusCodes.successful).json({ token });
   } catch (err) {
     return next(err);
   }
