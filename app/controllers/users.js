@@ -41,6 +41,11 @@ const signIn = async (req, res, next) => {
     }
     const userSignInDTO = userMapper.signInResponseDTO(user);
     const token = generateToken(userSignInDTO);
+    logger.info({
+      email: user.email,
+      token,
+      message: 'Token generate'
+    });
     return res.status(statusCodes.successful).json({ token });
   } catch (err) {
     return next(err);
