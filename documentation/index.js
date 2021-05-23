@@ -29,7 +29,8 @@ module.exports = {
   security: [],
   tags: [
     {
-      name: 'Users'
+      name: 'Users',
+      description: 'Everything about users'
     }
   ],
   paths,
