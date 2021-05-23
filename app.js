@@ -1,7 +1,7 @@
 const { expressMiddleware, expressRequestIdMiddleware } = require('express-wolox-logger');
 const express = require('express');
 const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
+const redoc = require('redoc-express');
 const config = require('./config');
 const routes = require('./app/routes');
 const errors = require('./app/middlewares/errors');
@@ -28,7 +28,10 @@ const app = express();
 app.use(bodyParser.json(bodyParserJsonConfig()));
 app.use(bodyParser.urlencoded(bodyParserUrlencodedConfig()));
 app.use(expressRequestIdMiddleware());
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation));
+app.get('/docs/swagger', (req, res) => {
+  res.json(documentation);
+});
+app.use('/docs', redoc({ title: '', specUrl: '/docs/swagger' }));
 
 if (!config.isTesting) app.use(expressMiddleware({ loggerFn: logger.info }));
 

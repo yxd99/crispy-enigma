@@ -13,9 +13,10 @@ class UserService {
     }
   }
 
-  static async getUsers(params = {}) {
+  static async getUsers(params) {
     try {
-      const users = await db.User.findAll({ where: { [Op.or]: params } });
+      const query = params ? { [Op.or]: params } : {};
+      const users = await db.User.findAll({ where: query });
       return users;
     } catch (err) {
       throw errors.databaseError(err);

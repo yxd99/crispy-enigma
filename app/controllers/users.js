@@ -12,7 +12,7 @@ const signUp = async (req, res, next) => {
         response: 'this email is already in use.',
         user: userDTO.email
       };
-      throw errors.badRequest(msg);
+      throw errors.conflictServer(msg);
     }
     const { email } = await UserService.signUp(userDTO);
     const msg = {

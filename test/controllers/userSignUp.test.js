@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../../app');
 
 describe('sign up users', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     const models = require('../../app/models');
     jest.mock('../../app/models');
     const { User } = models;
@@ -17,45 +17,52 @@ describe('sign up users', () => {
   };
   const statusCode = {
     created: 201,
-    bad_request: 400
+    bad_request: 400,
+    conflict: 409
   };
-  it('should register user', async () => {
+  it('should register user', async done => {
     const user = await request(app)
       .post('/users')
       .send(dataUser);
     expect(user.statusCode).toBe(statusCode.created);
+    done();
   });
-  it('should register user', async () => {
+
+  it('should register user', async done => {
     await request(app)
       .post('/users')
       .send(dataUser);
     const res = await request(app)
       .post('/users')
       .send(dataUser);
-    return expect(res.statusCode).toBe(statusCode.bad_request);
+    expect(res.statusCode).toBe(statusCode.conflict);
+    done();
   });
 
-  it('should reject email', async () => {
+  it('should reject email', async done => {
     dataUser.email = 'fyesid.h@gmail.com';
     const res = await request(app)
       .post('/users')
       .send(dataUser);
     expect(res.statusCode).toBe(statusCode.bad_request);
+    done();
   });
 
-  it('should reject password', async () => {
+  it('should reject password', async done => {
     dataUser.email = 'yesid@wolox.com.co';
     dataUser.password = '123';
     const res = await request(app)
       .post('/users')
       .send(dataUser);
     expect(res.statusCode).toBe(statusCode.bad_request);
+    done();
   });
 
-  it('should reject fields empty', async () => {
+  it('should reject fields empty', async done => {
     const res = await request(app)
       .post('/users')
       .send({});
     expect(res.statusCode).toBe(statusCode.bad_request);
+    done();
   });
 });
