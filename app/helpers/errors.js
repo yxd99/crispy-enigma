@@ -6,6 +6,9 @@ const internalError = (message, internalCode) => ({
 exports.BAD_REQUEST = 'invalid_data';
 exports.badRequest = message => internalError(message, exports.BAD_REQUEST);
 
+exports.CONFLICT_SERVER = 'conflict';
+exports.conflictServer = message => internalError(message, exports.CONFLICT_SERVER);
+
 exports.DATABASE_ERROR = 'database_error';
 exports.databaseError = message => internalError(message, exports.DATABASE_ERROR);
 

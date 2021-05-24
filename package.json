@@ -20,6 +20,7 @@
     "start-dev": "nodemon --inspect server.js",
     "prestart-dev": "npm run lint",
     "migrations": "sequelize db:migrate",
+    "migrations-test": "NODE_ENV=testing npm run migrations",
     "start": "node server.js",
     "seed": "sequelize db:seed:all",
     "create-seed": "sequelize seed:generate --name"
@@ -42,7 +43,7 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "branches": 80,
+        "branches": 70,
         "functions": 80,
         "lines": 80,
         "statements": 80
@@ -51,11 +52,17 @@
     "collectCoverageFrom": [
       "**/*.js",
       "!**/console.js",
+      "!**/server.js",
+      "!**/factory_by_models.js",
+      "!**/app/middlewares/apiInfo.js",
+      "!**/app/services/index.js",
+      "!**/app/mappers/index.js",
       "!**/node_modules/**",
       "!**/build/**",
       "!**/migrations/**",
       "!**/config/**",
-      "!**/scripts/**"
+      "!**/scripts/**",
+      "!**/coverage/**"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.js"
@@ -69,12 +76,14 @@
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.5",
     "express": "^4.16.2",
     "express-wolox-logger": "^2.0.0",
     "factory-girl": "^5.0.4",
     "joi": "^17.4.0",
     "jwt-simple": "^0.5.1",
     "pg": "^7.4.1",
+    "redoc-express": "^1.0.0",
     "sequelize": "^5.21.5",
     "swagger-ui-express": "^4.0.7",
     "umzug": "^2.1.0"
