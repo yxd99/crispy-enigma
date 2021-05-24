@@ -21,10 +21,10 @@ describe('sign up users', () => {
     conflict: 409
   };
   it('should register user', async done => {
-    const user = await request(app)
+    const res = await request(app)
       .post('/users')
       .send(dataUser);
-    expect(user.statusCode).toBe(statusCode.created);
+    expect(res.statusCode).toBe(statusCode.created);
     done();
   });
 
