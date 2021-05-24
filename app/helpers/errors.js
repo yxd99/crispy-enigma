@@ -6,6 +6,9 @@ const internalError = (message, internalCode) => ({
 exports.BAD_REQUEST = 'invalid_data';
 exports.badRequest = message => internalError(message, exports.BAD_REQUEST);
 
+exports.ACCESS_DENIED = 'unauthorized';
+exports.accessDenied = message => internalError(message, exports.ACCESS_DENIED);
+
 exports.CONFLICT_SERVER = 'conflict';
 exports.conflictServer = message => internalError(message, exports.CONFLICT_SERVER);
 
