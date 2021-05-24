@@ -1,11 +1,10 @@
 const { expressMiddleware, expressRequestIdMiddleware } = require('express-wolox-logger');
 const express = require('express');
 const bodyParser = require('body-parser');
-const swaggerUi = require('swagger-ui-express');
+const cors = require('cors');
 const config = require('./config');
 const routes = require('./app/routes');
 const errors = require('./app/middlewares/errors');
-const documentation = require('./documentation');
 const logger = require('./app/logger');
 
 const DEFAULT_BODY_SIZE_LIMIT = 1024 * 1024 * 10;
@@ -25,10 +24,10 @@ const bodyParserUrlencodedConfig = () => ({
 const app = express();
 
 // Client must send "Content-Type: application/json" header
+app.use(cors());
 app.use(bodyParser.json(bodyParserJsonConfig()));
 app.use(bodyParser.urlencoded(bodyParserUrlencodedConfig()));
 app.use(expressRequestIdMiddleware());
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 
 if (!config.isTesting) app.use(expressMiddleware({ loggerFn: logger.info }));
 

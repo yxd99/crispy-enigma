@@ -17,9 +17,9 @@ addons:
 services:
   - postgresql
 
-#before_script:
-#  - psql -c "CREATE DATABASE bookstest;" -U postgres
-#  - npm run migrations-test
+before_script:
+  - psql -c "CREATE DATABASE db_wtraining_test;" -U postgres
+  - npm run migrations-test
 
 scripts:
   - npm run lint
