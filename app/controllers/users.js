@@ -7,8 +7,8 @@ const { UserService } = require('../services');
 const signUp = async (req, res, next) => {
   try {
     const userDTO = userMapper.signUpDTO(req.body);
-    const dataUser = await UserService.getUser({ email: userDTO.email });
-    if (dataUser) {
+    const { error } = await UserService.getUser({ email: userDTO.email });
+    if (!error) {
       const msg = {
         response: 'this email is already in use.',
         user: userDTO.email
@@ -30,18 +30,17 @@ const signUp = async (req, res, next) => {
 const signIn = async (req, res, next) => {
   try {
     const userDTO = userMapper.signInDTO(req.body);
-    const user = await UserService.getUser({ email: userDTO.email });
-    if (!user) {
-      throw errors.conflictServer('User is not registered.');
+    const { error, id, password } = await UserService.getUser({ email: userDTO.email });
+    if (error) {
+      throw errors.unauthorized(error);
     }
-    const confirmPassword = isValidPassword(userDTO.password, user.password);
+    const confirmPassword = isValidPassword(userDTO.password, password);
     if (!confirmPassword) {
-      throw errors.accessDenied('Email or password invalid.');
+      throw errors.unauthorized('Email or password invalid.');
     }
-    const userSignInDTO = userMapper.signInResponseDTO(user);
-    const token = generateToken(userSignInDTO);
+    const token = generateToken({ id });
     logger.info({
-      email: user.email,
+      email: userDTO.email,
       token,
       message: 'Token generated'
     });

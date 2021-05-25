@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 const request = require('supertest');
 const app = require('../../app');
+const { dataUser, statusCode } = require('../__mocks__/user.mock');
 
 describe('sign in user', () => {
   beforeEach(() => {
@@ -9,24 +10,6 @@ describe('sign in user', () => {
     const { User } = models;
     User.create.mockImplementationOnce(user => Promise.resolve(user));
   });
-  const dataUser = {
-    signUp: {
-      first_name: 'Yesid',
-      last_name: 'Hernandez',
-      email: 'yesid@wolox.com.co',
-      password: '12345678'
-    },
-    signIn: {
-      email: 'yesid@wolox.com.co',
-      password: '12345678'
-    }
-  };
-  const statusCode = {
-    ok: 200,
-    badRequest: 400,
-    denied: 401,
-    conflict: 409
-  };
 
   it('should sign in and generate a token.', async done => {
     await request(app)
@@ -43,7 +26,7 @@ describe('sign in user', () => {
     const res = await request(app)
       .post('/users/sessions')
       .send(dataUser.signIn);
-    expect(res.statusCode).toBe(statusCode.conflict);
+    expect(res.statusCode).toBe(statusCode.unauthorized);
     done();
   });
 
@@ -55,12 +38,12 @@ describe('sign in user', () => {
     const res = await request(app)
       .post('/users/sessions')
       .send(dataUser.signIn);
-    expect(res.statusCode).toBe(statusCode.denied);
+    expect(res.statusCode).toBe(statusCode.unauthorized);
     done();
   });
 
   it('should be rejected because the password is empty', async done => {
-    delete dataUser.signIn.password;
+    dataUser.signIn = { email: 'yesid@wolox.com.co' };
     await request(app)
       .post('/users')
       .send(dataUser.signUp);
@@ -72,8 +55,7 @@ describe('sign in user', () => {
   });
 
   it('should be rejected because the email is empty', async done => {
-    delete dataUser.signIn.email;
-    dataUser.signIn.password = '123456789';
+    dataUser.signIn = { password: '123456789' };
     await request(app)
       .post('/users')
       .send(dataUser.signUp);
@@ -85,8 +67,7 @@ describe('sign in user', () => {
   });
 
   it('should be rejected because the fields is empty', async done => {
-    delete dataUser.signIn.email;
-    delete dataUser.signIn.password;
+    dataUser.signIn = {};
     await request(app)
       .post('/users')
       .send(dataUser.signUp);

@@ -26,7 +26,7 @@ class UserService {
   static async getUser(params = {}) {
     try {
       const user = await db.User.findOne({ where: { [Op.or]: params } });
-      return user;
+      return user || { error: 'User is not registered.' };
     } catch (err) {
       throw errors.databaseError(err);
     }

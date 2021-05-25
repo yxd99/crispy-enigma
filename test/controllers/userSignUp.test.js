@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 const request = require('supertest');
 const app = require('../../app');
+const { dataUser, statusCode } = require('../__mocks__/user.mock');
 
 describe('sign up users', () => {
   beforeEach(() => {
@@ -9,52 +10,41 @@ describe('sign up users', () => {
     const { User } = models;
     User.create.mockImplementationOnce(user => Promise.resolve(user));
   });
-  const dataUser = {
-    first_name: 'Yesid',
-    last_name: 'Hernandez',
-    email: 'yesid@wolox.com.co',
-    password: '12345678'
-  };
-  const statusCode = {
-    created: 201,
-    bad_request: 400,
-    conflict: 409
-  };
   it('should register user', async done => {
     const res = await request(app)
       .post('/users')
-      .send(dataUser);
+      .send(dataUser.signUp);
     expect(res.statusCode).toBe(statusCode.created);
     done();
   });
 
-  it('should register user', async done => {
+  it('should reject register user', async done => {
     await request(app)
       .post('/users')
-      .send(dataUser);
+      .send(dataUser.signUp);
     const res = await request(app)
       .post('/users')
-      .send(dataUser);
+      .send(dataUser.signUp);
     expect(res.statusCode).toBe(statusCode.conflict);
     done();
   });
 
   it('should reject email', async done => {
-    dataUser.email = 'fyesid.h@gmail.com';
+    dataUser.signUp.email = 'fyesid.h@gmail.com';
     const res = await request(app)
       .post('/users')
-      .send(dataUser);
-    expect(res.statusCode).toBe(statusCode.bad_request);
+      .send(dataUser.signUp);
+    expect(res.statusCode).toBe(statusCode.badRequest);
     done();
   });
 
   it('should reject password', async done => {
-    dataUser.email = 'yesid@wolox.com.co';
-    dataUser.password = '123';
+    dataUser.signUp.email = 'yesid@wolox.com.co';
+    dataUser.signUp.password = '123';
     const res = await request(app)
       .post('/users')
-      .send(dataUser);
-    expect(res.statusCode).toBe(statusCode.bad_request);
+      .send(dataUser.signUp);
+    expect(res.statusCode).toBe(statusCode.badRequest);
     done();
   });
 
@@ -62,7 +52,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send({});
-    expect(res.statusCode).toBe(statusCode.bad_request);
+    expect(res.statusCode).toBe(statusCode.badRequest);
     done();
   });
 });
