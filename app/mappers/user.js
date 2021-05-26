@@ -15,3 +15,11 @@ exports.signInDTO = (params = {}) => {
     password
   };
 };
+
+exports.listUsersDTO = (params = {}) => {
+  const { limit, since } = params;
+  return {
+    limit,
+    since
+  };
+};

@@ -13,11 +13,16 @@ class UserService {
     }
   }
 
-  static async getUsers(params) {
+  static async getUsers(params = {}) {
     try {
-      const query = params ? { [Op.or]: params } : {};
-      const users = await db.User.findAll({ where: query });
-      return users;
+      if (typeof params !== 'object') {
+        throw errors.conflictServer('the params must be an object.');
+      }
+      const { limit = 5, since = 0, ...paramQuery } = params;
+      const res = { message: `Users listed with limit=${limit} since=${since}` };
+      const query = paramQuery ? { where: { [Op.or]: params } } : {};
+      res.users = await db.User.findAll({ limit, offset: since, query });
+      return res;
     } catch (err) {
       throw errors.databaseError(err);
     }

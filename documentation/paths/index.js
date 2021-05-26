@@ -1,3 +1,5 @@
-const user = require('./user');
+const userPath = require('./user');
 
-module.exports = user;
+module.exports = {
+  ...userPath
+};

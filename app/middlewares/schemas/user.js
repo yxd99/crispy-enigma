@@ -27,7 +27,18 @@ const signIn = Joi.object({
     .required()
 });
 
+const getUsers = Joi.object({
+  limit: Joi.number()
+    .positive()
+    .min(1)
+    .max(20),
+  since: Joi.number()
+    .positive()
+    .min(1)
+});
+
 module.exports = {
   signUp,
-  signIn
+  signIn,
+  getUsers
 };

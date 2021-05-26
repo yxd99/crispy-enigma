@@ -36,7 +36,7 @@ describe('User service', () => {
       await UserService.signUp(dataUser);
     }
     const res = await UserService.getUsers();
-    return expect(res.length).toBe(5);
+    return expect(res.users.length).toBe(5);
   });
 
   it('should reject getting users', async () => {
