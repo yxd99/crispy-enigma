@@ -1,7 +1,7 @@
-const user = require('./user');
+const userSchemas = require('./user');
 
 module.exports = {
-  ...user,
+  ...userSchemas,
   Error: {
     type: 'object',
     properties: {

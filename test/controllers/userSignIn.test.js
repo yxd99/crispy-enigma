@@ -2,6 +2,7 @@
 const request = require('supertest');
 const app = require('../../app');
 const { statusCodes } = require('../../app/helpers');
+const { messages } = require('../__mocks__');
 const { dataUser } = require('../__mocks__/user.mock');
 
 describe('sign in user', () => {
@@ -11,37 +12,6 @@ describe('sign in user', () => {
     const { User } = models;
     User.create.mockImplementationOnce(user => Promise.resolve(user));
   });
-
-  const messages = {
-    emailRequired: {
-      message: [
-        {
-          message: '"email" is required',
-          path: ['email'],
-          type: 'any.required',
-          context: {
-            label: 'email',
-            key: 'email'
-          }
-        }
-      ],
-      internal_code: 'invalid_data'
-    },
-    passwordRequired: {
-      message: [
-        {
-          message: '"password" is required',
-          path: ['password'],
-          type: 'any.required',
-          context: {
-            label: 'password',
-            key: 'password'
-          }
-        }
-      ],
-      internal_code: 'invalid_data'
-    }
-  };
 
   it('should sign in and generate a token.', async done => {
     await request(app)

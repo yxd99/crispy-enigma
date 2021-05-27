@@ -50,7 +50,22 @@ const signIn = async (req, res, next) => {
   }
 };
 
+const listUsers = async (req, res, next) => {
+  try {
+    const listUserDTO = userMapper.listUsersDTO(req.query);
+    const { error, ...response } = await UserService.getUsers(listUserDTO);
+    if (error) {
+      throw errors.conflictServer(error);
+    }
+    logger.info(response.msg);
+    return res.json({ response });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   signUp,
-  signIn
+  signIn,
+  listUsers
 };
