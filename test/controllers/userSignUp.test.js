@@ -1,7 +1,8 @@
 /* eslint-disable global-require */
 const request = require('supertest');
 const app = require('../../app');
-const { dataUser, statusCode } = require('../__mocks__/user.mock');
+const { statusCodes } = require('../../app/helpers');
+const { dataUser } = require('../__mocks__/user.mock');
 
 describe('sign up users', () => {
   beforeEach(() => {
@@ -14,7 +15,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.created);
+    expect(res.statusCode).toBe(statusCodes.created);
     done();
   });
 
@@ -25,7 +26,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.conflict);
+    expect(res.statusCode).toBe(statusCodes.conflict);
     done();
   });
 
@@ -34,7 +35,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.badRequest);
+    expect(res.statusCode).toBe(statusCodes.invalid_data);
     done();
   });
 
@@ -44,7 +45,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.badRequest);
+    expect(res.statusCode).toBe(statusCodes.invalid_data);
     done();
   });
 
@@ -52,7 +53,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send({});
-    expect(res.statusCode).toBe(statusCode.badRequest);
+    expect(res.statusCode).toBe(statusCodes.invalid_data);
     done();
   });
 });

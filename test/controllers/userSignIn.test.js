@@ -1,7 +1,8 @@
 /* eslint-disable global-require */
 const request = require('supertest');
 const app = require('../../app');
-const { dataUser, statusCode } = require('../__mocks__/user.mock');
+const { statusCodes } = require('../../app/helpers');
+const { dataUser } = require('../__mocks__/user.mock');
 
 describe('sign in user', () => {
   beforeEach(() => {
@@ -11,6 +12,37 @@ describe('sign in user', () => {
     User.create.mockImplementationOnce(user => Promise.resolve(user));
   });
 
+  const messages = {
+    emailRequired: {
+      message: [
+        {
+          message: '"email" is required',
+          path: ['email'],
+          type: 'any.required',
+          context: {
+            label: 'email',
+            key: 'email'
+          }
+        }
+      ],
+      internal_code: 'invalid_data'
+    },
+    passwordRequired: {
+      message: [
+        {
+          message: '"password" is required',
+          path: ['password'],
+          type: 'any.required',
+          context: {
+            label: 'password',
+            key: 'password'
+          }
+        }
+      ],
+      internal_code: 'invalid_data'
+    }
+  };
+
   it('should sign in and generate a token.', async done => {
     await request(app)
       .post('/users')
@@ -18,7 +50,7 @@ describe('sign in user', () => {
     const res = await request(app)
       .post('/users/sessions')
       .send(dataUser.signIn);
-    expect(res.statusCode).toBe(statusCode.ok);
+    expect(res.statusCode).toBe(statusCodes.successful);
     done();
   });
 
@@ -26,7 +58,7 @@ describe('sign in user', () => {
     const res = await request(app)
       .post('/users/sessions')
       .send(dataUser.signIn);
-    expect(res.statusCode).toBe(statusCode.unauthorized);
+    expect(res.statusCode).toBe(statusCodes.unauthorized);
     done();
   });
 
@@ -38,7 +70,7 @@ describe('sign in user', () => {
     const res = await request(app)
       .post('/users/sessions')
       .send(dataUser.signIn);
-    expect(res.statusCode).toBe(statusCode.unauthorized);
+    expect(res.statusCode).toBe(statusCodes.unauthorized);
     done();
   });
 
@@ -49,8 +81,9 @@ describe('sign in user', () => {
       .send(dataUser.signUp);
     const res = await request(app)
       .post('/users/sessions')
-      .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.badRequest);
+      .send(dataUser.signIn);
+    const compare = JSON.parse(res.text);
+    expect(compare).toEqual(messages.passwordRequired);
     done();
   });
 
@@ -61,8 +94,9 @@ describe('sign in user', () => {
       .send(dataUser.signUp);
     const res = await request(app)
       .post('/users/sessions')
-      .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.badRequest);
+      .send(dataUser.signIn);
+    const compare = JSON.parse(res.text);
+    expect(compare).toEqual(messages.emailRequired);
     done();
   });
 
@@ -73,8 +107,9 @@ describe('sign in user', () => {
       .send(dataUser.signUp);
     const res = await request(app)
       .post('/users/sessions')
-      .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCode.badRequest);
+      .send(dataUser.signIn);
+    const compare = JSON.parse(res.text);
+    expect(compare).toEqual(messages.emailRequired);
     done();
   });
 });
