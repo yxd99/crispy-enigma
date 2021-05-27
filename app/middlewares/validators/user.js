@@ -13,6 +13,19 @@ const validateSignUpDTO = (req, res, next) => {
   }
 };
 
+const validateSignInDTO = (req, res, next) => {
+  try {
+    const { error } = userSchema.signIn.validate(req.body, CONFIG_JOI);
+    if (error) {
+      throw errors.badRequest(error.details);
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
-  validateSignUpDTO
+  validateSignUpDTO,
+  validateSignInDTO
 };

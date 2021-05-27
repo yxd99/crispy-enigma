@@ -1,13 +1,14 @@
 const { logger } = require('express-wolox-logger');
 const { errors, statusCodes } = require('../helpers');
+const { isValidPassword, generateToken } = require('../helpers/utils');
 const { userMapper } = require('../mappers');
 const { UserService } = require('../services');
 
 const signUp = async (req, res, next) => {
   try {
     const userDTO = userMapper.signUpDTO(req.body);
-    const dataUser = await UserService.getUser({ email: userDTO.email });
-    if (dataUser) {
+    const { error } = await UserService.getUser({ email: userDTO.email });
+    if (!error) {
       const msg = {
         response: 'this email is already in use.',
         user: userDTO.email
@@ -26,6 +27,30 @@ const signUp = async (req, res, next) => {
   }
 };
 
+const signIn = async (req, res, next) => {
+  try {
+    const userDTO = userMapper.signInDTO(req.body);
+    const { error, id, password } = await UserService.getUser({ email: userDTO.email });
+    if (error) {
+      throw errors.unauthorized(error);
+    }
+    const confirmPassword = isValidPassword(userDTO.password, password);
+    if (!confirmPassword) {
+      throw errors.unauthorized('Email or password invalid.');
+    }
+    const token = generateToken({ id });
+    logger.info({
+      email: userDTO.email,
+      token,
+      message: 'Token generated'
+    });
+    return res.status(statusCodes.successful).json({ token });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
-  signUp
+  signUp,
+  signIn
 };
