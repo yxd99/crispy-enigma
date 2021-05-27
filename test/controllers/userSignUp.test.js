@@ -35,7 +35,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCodes.bad_request);
+    expect(res.statusCode).toBe(statusCodes.badRequest);
     done();
   });
 
@@ -45,7 +45,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send(dataUser.signUp);
-    expect(res.statusCode).toBe(statusCodes.bad_request);
+    expect(res.statusCode).toBe(statusCodes.badRequest);
     done();
   });
 
@@ -53,7 +53,7 @@ describe('sign up users', () => {
     const res = await request(app)
       .post('/users')
       .send({});
-    expect(res.statusCode).toBe(statusCodes.bad_request);
+    expect(res.statusCode).toBe(statusCodes.badRequest);
     done();
   });
 });

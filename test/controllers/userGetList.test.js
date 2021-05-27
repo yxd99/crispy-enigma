@@ -1,6 +1,7 @@
 /* eslint-disable global-require */
 const request = require('supertest');
 const app = require('../../app');
+const { messages } = require('../__mocks__');
 const { dataUser } = require('../__mocks__/user.mock');
 
 describe('Get list users', () => {
@@ -10,39 +11,6 @@ describe('Get list users', () => {
     const { User } = models;
     User.create.mockImplementationOnce(user => Promise.resolve(user));
   });
-
-  const messages = {
-    limitNegative: {
-      message: [
-        {
-          message: '"limit" must be a positive number',
-          path: ['limit'],
-          type: 'number.positive',
-          context: {
-            label: 'limit',
-            value: -2,
-            key: 'limit'
-          }
-        }
-      ],
-      internal_code: 'bad_request'
-    },
-    sinceNegative: {
-      message: [
-        {
-          message: '"since" must be a positive number',
-          path: ['since'],
-          type: 'number.positive',
-          context: {
-            label: 'since',
-            value: -2,
-            key: 'since'
-          }
-        }
-      ],
-      internal_code: 'bad_request'
-    }
-  };
 
   it('should get list of 5 users', async done => {
     for (let i = 0; i < 10; i++) {

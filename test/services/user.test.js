@@ -25,7 +25,7 @@ describe('User service', () => {
       await UserService.signUp(dataUser);
       await UserService.signUp(dataUser);
     } catch (err) {
-      return expect(err.internalCode).toEqual('database_error');
+      return expect(err.internalCode).toEqual('databaseError');
     }
     throw new Error('User must be registered.');
   });
@@ -43,7 +43,7 @@ describe('User service', () => {
     try {
       await UserService.getUsers('assdad');
     } catch (err) {
-      return expect(err.internalCode).toEqual('database_error');
+      return expect(err.internalCode).toEqual('databaseError');
     }
     throw new Error('invalid parameter');
   });
@@ -58,7 +58,7 @@ describe('User service', () => {
     try {
       await UserService.getUser('asd');
     } catch (err) {
-      return expect(err.internalCode).toBe('database_error');
+      return expect(err.internalCode).toBe('databaseError');
     }
     throw new Error('invalid parameter');
   });
