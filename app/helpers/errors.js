@@ -3,7 +3,7 @@ const internalError = (message, internalCode) => ({
   internalCode
 });
 
-exports.BAD_REQUEST = 'invalid_data';
+exports.BAD_REQUEST = 'bad_request';
 exports.badRequest = message => internalError(message, exports.BAD_REQUEST);
 
 exports.UNAUTHORIZED = 'unauthorized';

@@ -25,7 +25,7 @@ describe('sign in user', () => {
           }
         }
       ],
-      internal_code: 'invalid_data'
+      internal_code: 'bad_request'
     },
     passwordRequired: {
       message: [
@@ -39,7 +39,7 @@ describe('sign in user', () => {
           }
         }
       ],
-      internal_code: 'invalid_data'
+      internal_code: 'bad_request'
     }
   };
 
